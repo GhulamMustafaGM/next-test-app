@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Post from "./components/Post/Post";
 
 import styles from "./posts.module.scss";
+
 const Header = dynamic(
     () => import("./components/Header").then((mod) => mod.PostHeader),
     {
