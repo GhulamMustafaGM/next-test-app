@@ -4,19 +4,19 @@ import dynamic from "next/dynamic";
 import Post from "./components/Post/Post";
 
 import styles from "./posts.module.scss";
-
-const Header = dynamic(
-    () => import("./components/Header").then((mod) => mod.PostHeader),
-    {
-        loading: () => <p>Loading Header...</p>,
-        ssr: false,
-    }
-);
+import Head from "next/head";
+const Header = dynamic(() => import("./components/Header"), {
+    loading: () => <p>Loading Header...</p>,
+    ssr: false,
+});
 //import Header from "./components/Header";
 
 export default function Posts({ posts }) {
     return (
         <>
+            <Head>
+                <title>Posts Page</title>
+            </Head>
             <Header />
             <ul className="row">
                 {posts.map((post) => {
@@ -33,6 +33,7 @@ export default function Posts({ posts }) {
 }
 
 export async function getStaticProps() {
+    console.log(`${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.POST_URL}`);
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.POST_URL}`
     );
